@@ -1,26 +1,60 @@
-# Getting Started
+# AgroHub
 
-### Reference Documentation
-For further reference, please consider the following sections:
+RESTful API сервис для агро-платформы, объединяющей фермеров и покупателей.
+Реализована ролевая модель (Фермер, Клиент), управление категориями и продуктами, оформление заказов и получение статистики фермерского магазина.
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/4.0.3/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/4.0.3/maven-plugin/build-image.html)
-* [Spring Web](https://docs.spring.io/spring-boot/4.0.3/reference/web/servlet.html)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/4.0.3/reference/data/sql.html#data.sql.jpa-and-spring-data)
+## Технологический стек
+* **Язык:** Java 25
+* **Фреймворк:** Spring Boot 4.0.3 (Web, Data JPA)
+* **База данных:** PostgreSQL
+* **Аутентификация:** JWT Токены
+* **Инструменты:** Maven
+* **Документация:** Swagger (Springdoc OpenAPI)
 
-### Guides
-The following guides illustrate how to use some features concretely:
+## Функционал
+* **Аутентификация:** Регистрация и вход (выдача JWT токена).
+* **Публичный доступ:** Просмотр списка продуктов, категорий, поиск по названиям.
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+* **Роль "FARMER":**
+  * Управление своими категориями (создание, удаление).
+  * Управление продуктами (добавление, удаление).
+  * Просмотр заказов своего магазина.
+  * Получение статистики (доходы, клиенты).
+* **Роль "CLIENT":**
+    * Оформление заказа.
+    * Отмена заказов.
 
-### Maven Parent overrides
+## Установка и запуск
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+Этот проект использует PostgreSQL. Перед запуском убедитесь, что у вас установлена и запущена база данных, а настройки подключения указаны в application.properties (или application.yml).
 
+1.  **Клонируйте репозиторий:**
+    ```bash
+    git clone https://github.com/theaprilthreatwind/aitu-mvp-project.git
+    cd aitu-mvp-project
+    ```
+2.  **Настройте базу данных PostgreSQL:**
+    Создайте базу данных (например, agrohub) и обновите конфигурацию в src/main/resources/application.properties:
+    ```bash
+    spring.datasource.url=jdbc:postgresql://localhost:5432/agrohub
+    spring.datasource.username=ваш_пользователь
+    spring.datasource.password=ваш_пароль
+    spring.jpa.hibernate.ddl-auto=update
+    ```
+3.  **Запустите приложение:**
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+
+4. **Подключение доступа к фронтенду (весь мост с фронтендом выстроен через ngrok):**
+    ```bash
+    ngrok config add-authtoken <38DU12yBHRx4Jo34wRMlPxpFZP8_89xoDdkLsa2iec1G7PE2q>
+    ngrok http 8080
+   ```
+   Скопируйте URL (например: https://unnegotiated-apocalyptically-paulette.ngrok-free.dev) и передайте его разработчикам фронтенда.
+
+5. **API Документация Swagger:**
+    После успешного запуска перейдите в браузере по адресу:
+   https://unnegotiated-apocalyptically-paulette.ngrok-free.dev/swagger-ui/index.html (здесь можно протестировать все эндпоинты без сторонних программ).
+
+**Автор:** Найданов Мирон
